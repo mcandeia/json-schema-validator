@@ -52,12 +52,12 @@ def request(verb, url, data=None):
 def json_from_file(file_path):
     try:
         f = open(file_path)
+        return json.load(f)
     # Do something with the file
     except IOError:
         return None
     finally:
         f.close()
-    return json.load(f)
 
 
 def validate_file(file_path):
