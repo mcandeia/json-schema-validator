@@ -60,9 +60,11 @@ def json_from_file(file_path):
 
 def validate_file(file_path):
     print('validating {}'.format(file_path))
-    schema = json_from_file(file_path + '.schema')
+    schema = json_from_file("__schemas__/" + file_path)
     if schema == None:
-        return []
+        schema = json_from_file(file_path + '.schema')
+        if schema == None:
+            return []
     instance = json_from_file(file_path)
 
     validator = Draft7Validator(schema)
