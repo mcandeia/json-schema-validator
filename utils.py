@@ -59,7 +59,7 @@ def json_from_file(file_path):
     except IOError:
         return None
 
-multi_tenant = strtobool(os.getenv('MULTI_TENANT'))
+multi_tenant = strtobool(os.getenv('INPUT_MULTI_TENANT'))
 
 def without_tenant(path):
     p = pathlib.Path(path)
