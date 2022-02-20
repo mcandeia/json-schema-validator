@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 import json
 import os
 import pprint
@@ -6,6 +7,7 @@ import re
 import jq
 import requests
 from jsonschema import Draft7Validator
+import pathlib
 
 BASE = 'https://api.github.com'
 ISSUE_COMMENTS = BASE + '/repos/{repo}/issues/{issue_number}/comments'
@@ -57,8 +59,14 @@ def json_from_file(file_path):
     except IOError:
         return None
 
+multi_tenant = strtobool(os.getenv('MULTI_TENANT'))
+
+def without_tenant(path):
+    p = pathlib.Path(path)
+    return pathlib.Path(*p.parts[2:])
 
 def validate_file(file_path):
+    file_path = without_tenant(file_path) if multi_tenant else file_path
     print('validating {}'.format(file_path))
     schema = json_from_file("__schemas__/" + file_path)
     if schema == None:
